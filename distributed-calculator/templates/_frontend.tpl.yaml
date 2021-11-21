@@ -1,0 +1,60 @@
+{{/*
+# template of each frontend application deployment
+# NOTE: since this requires both of the specific app's info and Values itself,
+# argument must be 
+# {{include "distributed-calculator.frontend.deployment" (dict "Values" .Values "app" .Values.frontends.hoge)}}
+*/}}
+{{- define "distributed-calculator.frontend.deployment" -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .app.name }}
+  labels:
+    app: {{ .app.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .app.name }}
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "{{ .app.name }}"
+        dapr.io/app-port: {{ .app.port | quote }} # must be string
+        dapr.io/config: "appconfig"
+    spec:
+      containers:
+      - name: {{ .app.name }}
+        image: {{ include "distributed-calculator.deploymentImage" .app}}
+        ports:
+        - containerPort: {{ .app.port }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+{{- end }}
+
+{{/*
+# template of each frontend application service
+# NOTE: since this requires both of the specific app's info and Values itself,
+# argument must be 
+# {{include "distributed-calculator.frontend.service" (dict "Values" .Values "app" .Values.frontends.hoge)}}
+*/}}
+{{- define "distributed-calculator.frontend.service" -}}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .app.name }}
+  labels:
+    app: {{ .app.name }}
+spec:
+  selector:
+    app: {{ .app.name }}
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: {{ .app.port }}
+  type: LoadBalancer
+{{- end }}

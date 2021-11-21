@@ -1,0 +1,5 @@
+# deployments
+{{include "distributed-calculator.frontend.deployment" (dict "Values" $.Values "app" $.Values.frontends.calculatorFrontEnd)}}
+
+# services
+{{include "distributed-calculator.frontend.service" (dict "Values" $.Values "app" $.Values.frontends.calculatorFrontEnd)}}
