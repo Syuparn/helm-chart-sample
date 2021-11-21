@@ -60,3 +60,17 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the metadata name of deployment (argument: app info)
+*/}}
+{{- define "distributed-calculator.deploymentName" -}}
+{{- printf "%sapp" .name }}
+{{- end }}
+
+{{/*
+Create the image name:tag of deployment (argument: app info)
+*/}}
+{{- define "distributed-calculator.deploymentImage" -}}
+{{- printf "%s:%s" .image .tag }}
+{{- end }}

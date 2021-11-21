@@ -1,0 +1,36 @@
+{{/*
+# template of each backend application
+# NOTE: since this requires both of the specific app's info and Values itself,
+# argument must be 
+# {{include "distributed-calculator.backend.deployment" (dict "Values" .Values "app" .Values.backends.hoge)}}
+*/}}
+{{- define "distributed-calculator.backend.deployment" -}}
+# TODO: antiaffinity
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "distributed-calculator.deploymentName" .app }}
+  labels:
+    app: {{ .app.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .app.name }}
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: {{ include "distributed-calculator.deploymentName" .app | quote}}
+        dapr.io/app-port: {{ .app.port | quote }}
+        dapr.io/config: "appconfig"
+    spec:
+      containers:
+      - name: {{ .app.name }}
+        image: {{ include "distributed-calculator.deploymentImage" .app}}
+        ports:
+        - containerPort: {{ .app.port | quote }}
+        imagePullPolicy: Always
+{{- end }}

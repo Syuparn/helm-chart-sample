@@ -1,0 +1,2 @@
+# deployments
+{{include "distributed-calculator.backend.deployment" (dict "Values" $.Values "app" $.Values.backends.subtract)}}
