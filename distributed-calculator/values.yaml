@@ -28,8 +28,6 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-# added below
-
 backends:
   add:
     name: add
