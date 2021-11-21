@@ -1,2 +1,5 @@
 # deployments
+{{include "distributed-calculator.backend.deployment" (dict "Values" $.Values "app" $.Values.backends.add)}}
 {{include "distributed-calculator.backend.deployment" (dict "Values" $.Values "app" $.Values.backends.subtract)}}
+{{include "distributed-calculator.backend.deployment" (dict "Values" $.Values "app" $.Values.backends.multiply)}}
+{{include "distributed-calculator.backend.deployment" (dict "Values" $.Values "app" $.Values.backends.divide)}}
