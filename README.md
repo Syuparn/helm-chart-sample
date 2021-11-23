@@ -15,6 +15,8 @@ $ helm template ./distributed-calculator/
 
 ## deploy apps
 
+### use Helm command
+
 ```bash
 # prepare kind cluster
 $ kind create cluster
@@ -34,4 +36,11 @@ $ kubectl port-forward svc/calculator-front-end 8080:80
 # connect to tracer
 $ kubectl port-forward svc/zipkin 9411:9411
 # now you can access the calculator on localhost:8080 and the tracer on localhost:9411
+```
+
+### use Skaffold
+
+```bash
+$ skaffold run --port-forward
+# you can access the calculator on localhost:8080 and the tracer on localhost:9411
 ```

@@ -13,3 +13,14 @@ deploy:
       - name: distributed-calculator
         chartPath: distributed-calculator
         # overrides: ...
+portForward:
+  - resourceType: service
+    resourceName: calculator-front-end
+    namespace: default
+    port: 80
+    localPort: 8080
+  - resourceType: service
+    resourceName: zipkin
+    namespace: default
+    port: 9411
+    localPort: 9411
