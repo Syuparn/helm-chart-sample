@@ -26,13 +26,18 @@ spec:
         dapr.io/app-id: "{{ .app.name }}"
         dapr.io/app-port: {{ .app.port | quote }} # must be string
         dapr.io/config: "appconfig"
+        {{- with $.Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       containers:
-      - name: {{ .app.name }}
-        image: {{ include "distributed-calculator.deploymentImage" .app}}
-        ports:
-        - containerPort: {{ .app.port }}
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        - name: {{ .app.name }}
+          image: {{ include "distributed-calculator.deploymentImage" .app}}
+          ports:
+            - containerPort: {{ .app.port }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
 {{- end }}
 
 {{/*

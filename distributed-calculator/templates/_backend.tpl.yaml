@@ -27,11 +27,16 @@ spec:
         dapr.io/app-id: {{ include "distributed-calculator.deploymentName" .app | quote}}
         dapr.io/app-port: {{ .app.port | quote }}
         dapr.io/config: "appconfig"
+        {{- with $.Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       containers:
-      - name: {{ .app.name }}
-        image: {{ include "distributed-calculator.deploymentImage" .app}}
-        ports:
-        - containerPort: {{ .app.port }}
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        - name: {{ .app.name }}
+          image: {{ include "distributed-calculator.deploymentImage" .app}}
+          ports:
+            - containerPort: {{ .app.port }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
 {{- end }}
