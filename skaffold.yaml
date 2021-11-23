@@ -12,7 +12,8 @@ deploy:
         remoteChart: redis
       - name: distributed-calculator
         chartPath: distributed-calculator
-        # overrides: ...
+        overrides: # override Values.yaml
+          replicaCount: 2
 portForward:
   - resourceType: service
     resourceName: calculator-front-end
