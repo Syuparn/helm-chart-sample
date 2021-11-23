@@ -1,0 +1,16 @@
+# Test if frontend app "calculator-front-end" is working
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "calculator-front-end-is-working"
+  labels:
+    {{- include "distributed-calculator.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: yauritux/busybox-curl
+      command: ['curl']
+      args: ['calculator-front-end.default.svc.cluster.local']
+  restartPolicy: Never
