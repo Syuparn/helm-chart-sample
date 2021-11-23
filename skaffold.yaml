@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+deploy:
+  helm:
+    releases:
+      - name: dapr
+        repo: https://dapr.github.io/helm-charts/
+        remoteChart: dapr
+        version: "1.5.0"
+      - name: redis
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: redis
+      - name: distributed-calculator
+        chartPath: distributed-calculator
+        # overrides: ...
