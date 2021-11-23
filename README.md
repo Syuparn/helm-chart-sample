@@ -31,5 +31,7 @@ $ helm install redis bitnami/redis
 $ helm install distributed-calculator ./distributed-calculator/
 # connect to frontend
 $ kubectl port-forward svc/calculator-front-end 8080:80
-# you can access calculator on localhost:8080
+# connect to tracer
+$ kubectl port-forward svc/zipkin 9411:9411
+# now you can access the calculator on localhost:8080 and the tracer on localhost:9411
 ```
