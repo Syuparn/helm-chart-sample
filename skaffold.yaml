@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 deploy:
   helm:
@@ -6,14 +6,18 @@ deploy:
       - name: dapr
         repo: https://dapr.github.io/helm-charts/
         remoteChart: dapr
-        version: "1.5.0"
+        version: "1.8"
+        setValues:
+          "global.mtls.enabled": false
       - name: redis
         repo: https://charts.bitnami.com/bitnami
         remoteChart: redis
+        setValues:
+          architecture: standalone
       - name: distributed-calculator
         chartPath: distributed-calculator
         overrides: # override Values.yaml
-          replicaCount: 2
+          replicaCount: 1
 portForward:
   - resourceType: service
     resourceName: calculator-front-end

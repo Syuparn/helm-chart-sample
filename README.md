@@ -22,12 +22,15 @@ $ helm template ./distributed-calculator/
 $ kind create cluster
 # deploy dependent resources in advance
 # Dapr (see https://docs.dapr.io/operations/hosting/kubernetes/kubernetes-deploy/#add-and-install-dapr-helm-chart)
+$ helm repo add dapr https://dapr.github.io/helm-charts/
+$ helm repo update
 $ helm upgrade --install dapr dapr/dapr \
---version=1.5 \
+--version=1.8 \
 --namespace dapr-system \
 --create-namespace \
 --wait
 # Redis (see https://github.com/bitnami/charts/tree/master/bitnami/redis)
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm install redis bitnami/redis
 # deploy distributed-calculator
 $ helm install distributed-calculator ./distributed-calculator/
